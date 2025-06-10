@@ -46,10 +46,10 @@ repositories {
 
     maven { url = "https://jitpack.io/" }
 
-	// maven {
-	// 	name = "Gegy"
-	// 	url = uri("https://maven.gegy.dev")
-	// }
+	maven {
+		name = "Gegy"
+		url = uri("https://maven.gegy.dev")
+	}
 }
 
 dependencies {
@@ -84,7 +84,7 @@ dependencies {
     //compileOnly ("cc.tweaked:cc-tweaked-1.20.1-fabric-api:1.105.0")
     //runtimeOnly ("cc.tweaked:cc-tweaked-1.20.1-fabric:1.105.0")
 
-    // modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:${lambdynamiclights_version}+${project.minecraft_version}")
+    modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:${lambdynamiclights_version}+${project.minecraft_version}")
 }
 
 processResources {
