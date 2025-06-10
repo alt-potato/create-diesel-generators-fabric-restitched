@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'fabric-loom' version '1.10-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -16,9 +16,9 @@ repositories {
         url = "https://api.modrinth.com/maven"
     }
     maven {
-        url 'https://www.cursemaven.com'
+        url = 'https://www.cursemaven.com'
         content {
-            includeGroup "curse.maven"
+            includeGroup("curse.maven")
         }
     }
     maven {
@@ -32,8 +32,8 @@ repositories {
         url = "https://maven.terraformersmc.com/"
     }
     maven {
-        name "tterrag maven"
-        url "https://maven.tterrag.com/"
+        name = "tterrag maven"
+        url = "https://maven.tterrag.com/"
     }
     maven {
         // location of the maven that hosts JEI files since January 2023
@@ -45,13 +45,18 @@ repositories {
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // Forge Config API Port
 
     maven { url = "https://jitpack.io/" }
+
+	// maven {
+	// 	name = "Gegy"
+	// 	url = uri("https://maven.gegy.dev")
+	// }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    minecraft("com.mojang:minecraft:${project.minecraft_version}")
+    mappings(loom.officialMojangMappings())
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
     modImplementation("com.simibubi.create:create-fabric-1.20.1:0.5.1-f-build.1417+mc1.20.1")
     //modImplementation("maven.modrinth:create-fabric:0.5.1-f-build.1417+mc1.20.1")
@@ -72,17 +77,19 @@ dependencies {
 
     //modApi("mezz.jei:jei-1.20.1-common-api:${jei_version}")
     //modApi("mezz.jei:jei-1.20.1-fabric-api:${jei_version}")
-    modImplementation ("curse.maven:jei-238222:5101365")
+    modImplementation("curse.maven:jei-238222:5101365")
     // at runtime, use the full JEI jar for Fabric
     modRuntimeOnly("mezz.jei:jei-1.20.1-fabric:${jei_version}")
 
     //compileOnly ("cc.tweaked:cc-tweaked-1.20.1-fabric-api:1.105.0")
     //runtimeOnly ("cc.tweaked:cc-tweaked-1.20.1-fabric:1.105.0")
+
+    // modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:${lambdynamiclights_version}+${project.minecraft_version}")
 }
 
 processResources {
-    inputs.property "version", project.version
-    filteringCharset "UTF-8"
+    inputs.property("version", project.version)
+    filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version
@@ -95,6 +102,12 @@ tasks.withType(JavaCompile).configureEach {
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         it.options.release = targetJavaVersion
     }
+
+    // options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
+}
+
+base {
+    archivesName = project.archives_base_name
 }
 
 java {
@@ -102,7 +115,7 @@ java {
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
-    archivesBaseName = project.archives_base_name
+
     withSourcesJar()
 }
 
