@@ -50,11 +50,18 @@ repositories {
 		name = "Gegy"
 		url = uri("https://maven.gegy.dev")
 	}
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
 }
 
 dependencies {
     minecraft("com.mojang:minecraft:${project.minecraft_version}")
-    mappings(loom.officialMojangMappings())
+    mappings(loom.layered {
+		officialMojangMappings()
+		parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:2023.09.03@zip")
+	})
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
@@ -84,7 +91,11 @@ dependencies {
     //compileOnly ("cc.tweaked:cc-tweaked-1.20.1-fabric-api:1.105.0")
     //runtimeOnly ("cc.tweaked:cc-tweaked-1.20.1-fabric:1.105.0")
 
-    modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:${lambdynamiclights_version}+${project.minecraft_version}")
+    modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:${lambdynamiclights_version}+${project.minecraft_version}") {
+		capabilities {
+			requireCapability("dev.lambdaurora.lambdynamiclights:api-mojmap")
+		}
+	}
 }
 
 processResources {
@@ -102,8 +113,6 @@ tasks.withType(JavaCompile).configureEach {
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         it.options.release = targetJavaVersion
     }
-
-    // options.compilerArgs += ['-Xlint:deprecation', '-Xlint:unchecked']
 }
 
 base {
